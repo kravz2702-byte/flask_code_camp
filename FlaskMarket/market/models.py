@@ -10,6 +10,7 @@ class User(db.Model):
     items = db.relationship('Item', backref='owned_user', lazy=True)
 
 
+
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(length=30), nullable=False, unique=True)
