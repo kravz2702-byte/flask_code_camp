@@ -9,7 +9,6 @@ from market import db
 def home_page():
     return render_template('home.html')
 
-
 @app.route('/market/')
 def market_page():
     items = Item.query.all()
@@ -19,13 +18,14 @@ def market_page():
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = User(username = form.username.data,
-                              email_address = form.email_address.data,
-                              password_hash = form.password1.data)
+        user_to_create = User(username=form.username.data,
+                              email_address=form.email_address.data,
+                              password_hash=form.password1.data)
         db.session.add(user_to_create)
         db.session.commit()
-        redirect(url_for('market_page'))
-    if form.errors != {}:#if there are errors form the validations
+        return redirect(url_for('market_page'))
+    if form.errors != {}: #If there are not errors from the validations
         for err_msg in form.errors.values():
-            flash(f'There was an error creating a user: {err_msg}')
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
+
     return render_template('register.html', form=form)
